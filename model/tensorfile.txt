@@ -1,0 +1,68 @@
+tensor_name: fc1/weight/Adam
+(65536, 200)
+tensor_name: conv1/bias1
+(64,)
+tensor_name: conv1/bias2
+(64,)
+tensor_name: deconv2/bias
+(128,)
+tensor_name: fc2/weight/Adam_1
+(200, 16384)
+tensor_name: deconv2/weight
+(5, 5, 5, 128, 64)
+tensor_name: fc2/weight
+(200, 16384)
+tensor_name: fc1/weight
+(65536, 200)
+tensor_name: fc1/bias/Adam
+(200,)
+tensor_name: deconv1/weight
+(5, 5, 5, 64, 32)
+tensor_name: conv4/bias
+(1,)
+tensor_name: fc2/bias
+(16384,)
+tensor_name: fc1/bias
+(200,)
+tensor_name: conv2/weight1
+(3, 3, 3, 64, 128)
+tensor_name: conv2/weight2
+(3, 3, 3, 128, 128)
+tensor_name: fc2/bias/Adam
+(16384,)
+tensor_name: conv4/weight
+(3, 3, 3, 128, 1)
+tensor_name: conv3/bias2
+(128,)
+tensor_name: conv3/bias3
+(128,)
+tensor_name: conv3/bias1
+(128,)
+tensor_name: beta2_power
+()
+tensor_name: fc2/weight/Adam
+(200, 16384)
+tensor_name: fc1/bias/Adam_1
+(200,)
+tensor_name: beta1_power
+()
+tensor_name: fc1/weight/Adam_1
+(65536, 200)
+tensor_name: conv2/bias2
+(128,)
+tensor_name: conv2/bias1
+(128,)
+tensor_name: fc2/bias/Adam_1
+(16384,)
+tensor_name: conv3/weight1
+(3, 3, 3, 128, 128)
+tensor_name: conv3/weight3
+(3, 3, 3, 128, 128)
+tensor_name: conv3/weight2
+(3, 3, 3, 128, 128)
+tensor_name: deconv1/bias
+(64,)
+tensor_name: conv1/weight2
+(3, 3, 3, 64, 64)
+tensor_name: conv1/weight1
+(3, 3, 3, 1, 64)
