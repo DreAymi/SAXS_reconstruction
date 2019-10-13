@@ -15,7 +15,9 @@ from functools import partial
 
 GPU_NUM=1
 BATCH_SIZE=10
-group_init_parameter=np.loadtxt('SAXS_reconstruction/genegroup_init_parameter_2.txt',delimiter=' ')
+
+#group_init_parameter is well-trained model's distribution of latent vector, used to initalize gene group.
+group_init_parameter=np.loadtxt('genegroup_init_parameter_2.txt',delimiter=' ')
 np.set_printoptions(precision=10,threshold=np.NaN)
 
 parser=argparse.ArgumentParser()
@@ -45,18 +47,31 @@ class MyThread(threading.Thread):
 class evolution:
 
 	def __init__(self,output_folder,mode,rmax_start,rmax_end):
+		#mode has 'withrmax' and 'withoutrmax', means know the size or not.
 		self.mode=mode
 		self.rmax_start=rmax_start
 		self.rmax_end=rmax_end
 		self.output_folder=output_folder
 		self.iteration_step=0
 		self.counter=0
+
+		#length of latent vector.
 		self.gene_length=200
+
+		#numbers of two-point crossing one time. 
 		self.exchange_gene_num=2
+
+		#inital group_num
 		self.group_num=300
+
 		self.inheritance_num=300
+
+		#every step of iteration, keep top 20 samples unchanged。
 		self.remain_best_num=20
+
+		#used for averaging when get the fianl result.
 		self.statistics_num=20
+
 		self.compute_score_withoutrmax=map2iq.run_withoutrmax
 		self.compute_score_withrmax=map2iq.run_withrmax
 		
@@ -81,6 +96,7 @@ class evolution:
 		print 'mean_score is:',np.mean(self.group_score)
 		print 'initialized'
 
+	#every iteration, make sure that all the samples have only one connected area. 
 	def region_process(self,cube_group,indexs):
 		num=cube_group.shape[0]
 		z_group=[]
@@ -106,6 +122,7 @@ class evolution:
 		real_data_group=np.concatenate(real_data_group,axis=0)
 		return [z_group,real_data_group]
 
+	#use well-trained autoencoder model to get 3D structure from latent vector.
 	def run_decode(self,data,ii):
 		num=data.shape[0]//BATCH_SIZE
 		rungroup=data.reshape((-1,BATCH_SIZE,self.gene_length))
@@ -118,6 +135,7 @@ class evolution:
 		result=result[:,:31,:31,:31,0].reshape((-1,31,31,31))
 		return result
 
+	#use multi_thread run multi GPU devices to accelerate reconstruction.
 	def multi_thread_decode_group(self,group):
 		source_num=group.shape[0]
 		data_size=group.shape[0]//BATCH_SIZE
@@ -148,6 +166,7 @@ class evolution:
 		real_data_group=np.concatenate(real_data_group,axis=0)
 		return real_data_group[:source_num,:,:,:]
 
+	#get scores of all the group based on fitness Function.
 	def compute_group_score(self,group):
 		decodetime1=time.time()
 		real_data_group=self.multi_thread_decode_group(group[:,:self.gene_length])
@@ -245,6 +264,7 @@ class evolution:
 	
 		return group_score
 
+	#rank whole group based on their scores.
 	def rank_group(self,group,group_score):
 		index=np.argsort(group_score)
 		group=group[index]
@@ -343,6 +363,7 @@ class evolution:
 		self.group=np.copy(self.group[:self.group_num])
 		self.group_score=np.copy(self.group_score[:self.group_num])
 
+	#If the best sample remains unchanged 15 times, reduce the size of the group. The termination condition is that the best sample remains unchanged 15 times when the group size is 100. 
 	def evolution_iteration(self):
 		while True:
 			t1=time.time()
@@ -382,6 +403,7 @@ class evolution:
 							np.savetxt('%s/bestgene.txt'%output_folder,self.group[0],fmt='%.3f')
 							return result_sample,voxel_group
 
+	#group initalization
 	def generate_original_group(self,num):
 		original_group=np.zeros(shape=(num,200))
 		for ii in range(200):
@@ -404,7 +426,7 @@ if __name__=='__main__':
 	rmax_end=args.rmax_end+1
 	map2iq.iq_path=iq_path
 	
-	saved_model_path='SAXS_reconstruction/model'
+	saved_model_path='model'
 	auto_encoder_t.BATCH_SIZE=BATCH_SIZE
 	map2iq.output_folder=output_folder
 	
