@@ -33,7 +33,8 @@ User Guide
     SASDA25.* are samples which can use to run a demo.
     Other py files are sub-files, need to put in the same folder with main.py.
 
-3. How to run demo
+3. How to run example
+    Here give an example in 'example' folder, you can run 'run.sh' in terminal.
     It's easy to run the project if you have deployed the environment successfully. Just input command like this:
 
     sastbx.python main.py --iq_path $iq_path --output_folder $output_path --rmax $known_rmax --target_pdb $targetpdb_path
@@ -45,8 +46,9 @@ User Guide
     --rmax_start: minimum of rmax (default=10)
     --rmax_end: maximum of rmax (default=300)
 
-    --iq_path and --output_folder are necessary. if the --iq_path you give is a GNOM type(eg.SASDA25.out) file, --rmax is not needed. This project will extract the rmax from your input file. If the --iq_path you give is just a DAT* file (two or three columns of data), you can specify a certain value of --rmax. If not, this project will find a well-matched size during reconstruction. You also can give a range of rmax by specify --rmax_start and --rmax_end.
+    --iq_path and --output_folder are necessary. if the --iq_path you give is a GNOM type(eg.example/SASDA25.out) file, --rmax is not needed. This project will extract the rmax from your input file. If the --iq_path you give is just a DAT* file (two or three columns of data), you can specify a certain value of --rmax. If not, this project will find a well-matched size during reconstruction. You also can give a range of rmax by specify --rmax_start and --rmax_end.
     --target_pdb is another additional parameter, help you know the relationship (correlation coefficient) between the reconstruction results and the structure you give.
+
 
 4. Result files
     When the project has done, you will get the following files:
