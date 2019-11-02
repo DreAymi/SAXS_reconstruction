@@ -11,6 +11,8 @@ import os
 import sys
 import result2pdb
 import argparse
+import processSaxs as ps
+
 from functools import partial
 
 GPU_NUM=1
@@ -424,7 +426,20 @@ if __name__=='__main__':
 	target_pdb=args.target_pdb
 	rmax_start=args.rmax_start
 	rmax_end=args.rmax_end+1
-	map2iq.iq_path=iq_path
+
+	estimate_rmax=None
+	process_result = ps.process(iq_path)
+    if len(process_result)==2:
+        estimate_rmax=process_result[1]
+    saxs_data = process_result[0]
+    processed_saxs_path=output_folder+'/processed_saxs.iq'
+    np.savetxt(processed_saxs_path,saxs_data,fmt='%.3f')
+
+	map2iq.iq_path=processed_saxs_path
+	if rmax==0 and (estimate_rmax is not None):
+		rmax=float(estimate_rmax)
+
+
 	
 	saved_model_path='model'
 	auto_encoder_t.BATCH_SIZE=BATCH_SIZE
