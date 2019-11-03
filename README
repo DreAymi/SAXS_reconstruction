@@ -8,10 +8,10 @@ User Guide
 
         conda install tensorflow-gpu 
 
-    (you can also specify version like this: conda install tensorflow-gpu=1.9.0)
+    (you can also specify version like this: conda install tensorflow-gpu=1.9.0, which is the version I used.)
     Or just install CPU version:
 
-        conda install tensorflow
+        conda install tensorflow=1.9.0
 
     3) Last one you need to install is SASTBX, you can download here:
 
