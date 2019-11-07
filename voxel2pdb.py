@@ -1,5 +1,5 @@
 import numpy as np
-np.set_printoptions(threshold=np.NaN)
+#np.set_printoptions(threshold=np.NaN)
 
 
 

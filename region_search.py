@@ -1,6 +1,6 @@
 import numpy as np
 import os 
-np.set_printoptions(threshold=np.NaN)
+#np.set_printoptions(threshold=np.NaN)
 
 
 def find_biggest_region(data):

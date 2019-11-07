@@ -1,3 +1,4 @@
+#coding:utf-8
 import numpy as np
 import tensorflow as tf 
 import exceptions
@@ -18,9 +19,10 @@ from functools import partial
 GPU_NUM=1
 BATCH_SIZE=10
 
+cur_path=sys.path[0]
 #group_init_parameter is well-trained model's distribution of latent vector, used to initalize gene group.
-group_init_parameter=np.loadtxt('genegroup_init_parameter_2.txt',delimiter=' ')
-np.set_printoptions(precision=10,threshold=np.NaN)
+group_init_parameter=np.loadtxt(cur_path+'/genegroup_init_parameter_2.txt',delimiter=' ')
+np.set_printoptions(precision=10)
 
 parser=argparse.ArgumentParser()
 parser.add_argument('--iq_path',help='path of iq_file',type=str)
@@ -429,11 +431,11 @@ if __name__=='__main__':
 
 	estimate_rmax=None
 	process_result = ps.process(iq_path)
-    if len(process_result)==2:
-        estimate_rmax=process_result[1]
-    saxs_data = process_result[0]
-    processed_saxs_path=output_folder+'/processed_saxs.iq'
-    np.savetxt(processed_saxs_path,saxs_data,fmt='%.3f')
+	if len(process_result)==2:
+        	estimate_rmax=process_result[1]
+	saxs_data = process_result[0]
+	processed_saxs_path=output_folder+'/processed_saxs.iq'
+	np.savetxt(processed_saxs_path,saxs_data,fmt='%.3f')
 
 	map2iq.iq_path=processed_saxs_path
 	if rmax==0 and (estimate_rmax is not None):
@@ -441,7 +443,7 @@ if __name__=='__main__':
 
 
 	
-	saved_model_path='model'
+	saved_model_path=cur_path+'/model'
 	auto_encoder_t.BATCH_SIZE=BATCH_SIZE
 	map2iq.output_folder=output_folder
 	
