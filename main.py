@@ -481,12 +481,12 @@ if __name__=='__main__':
 			t2=time.time()
 
 	if target_pdb == 'None':
-		result2pdb.write2pdb( result_sample ,rmax ,output_folder,iq_path)
+		result2pdb.write2pdb( result_sample ,rmax ,output_folder,processed_saxs_path)
 		t3=time.time()
 	else:
-		result2pdb.write2pdb( result_sample ,rmax ,output_folder,iq_path,target_pdb)
+		result2pdb.write2pdb( result_sample ,rmax ,output_folder,processed_saxs_path,target_pdb)
 		t3=time.time()
-		result2pdb.cal_cc(voxel_group,rmax,output_folder,target_pdb,iq_path)
+		result2pdb.cal_cc(voxel_group,rmax,output_folder,target_pdb,processed_saxs_path)
 	
 	t4=time.time()
 	print 'total_time:',(t4-t1)
