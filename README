@@ -1,4 +1,7 @@
 User Guide
+Please attention:
+     When you download this project on github, there are three model files in the 'model' directory named with model.ckpt*. They are too large to download successfully. You need to click those files in github, and download them manually, then put them in the 'model' directory.
+
 1. Environment requirement and installation:
     You need to install python2.7, tensorflow and SASTBX kit.
     1) Recommend you use Anaconda to manage your environment. Just download Anaconda (python2.7 version) on https://www.anaconda.com, then follow the installation and user guide which suit for your platform. (https://docs.anaconda.com/anaconda/install/linux/)
@@ -37,8 +40,9 @@ User Guide
     Here give an example in 'example' folder, you can run 'run.sh' in terminal.
     It's easy to run the project if you have deployed the environment successfully. Just input command like this:
 
-    sastbx.python main.py --iq_path $iq_path --output_folder $output_path --rmax $known_rmax --target_pdb $targetpdb_path
+    sastbx.python main.py --model_path $model_path --iq_path $iq_path --output_folder $output_path --rmax $known_rmax --target_pdb $targetpdb_path
 
+    --model_path: the path of well-trained tensorflow's model files.
     --iq_path: file of experimental saxs data, DAT* or GNOM.
     --output_folder: output path of results.
     --rmax: size(Å) of the reconstruction object if you know.
@@ -58,4 +62,5 @@ User Guide
     cc_mat.txt: if you give --target_pdb, this file record the correlation coefficient of each iteration's top 20 samples' results.
     final_saxs.txt: Record the fitting saxs data of last generation.
     score_mat.txt: Record top 20 samples with high score on every generation.
+    cc_mat.txt: Record top 20 samples' correlation coefficient with target structure in every generation.
     

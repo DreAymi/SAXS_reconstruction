@@ -74,7 +74,21 @@ def write_single_pdb(group,rmax,output_folder,target_pdb=None):
 		args=['fix=%s/out.ccp4'%output_folder,'typef=ccp4','mov=%s'%target_pdb,'rmax=%f'%shiftrmax]
 		zalign.run(args,output_folder)
 
+def cal_cc(voxel_group,rmax,output_folder,target_pdb):
+	os.system('mkdir %s/temp'%output_folder)
+	num=voxel_group.shape[0]
+	cc_mat=np.zeros(shape=(num,20))
+	for ii in range(num):
+		for jj in range(20):
+			voxel2pdb.write_pdb(voxel_group[ii,jj],'%s/temp/%d_%d.pdb'%(output_folder,ii,jj),rmax)
+			cc=align.run(fix=target_pdb,mov='%s/temp/%d_%d.pdb'%(output_folder,ii,jj))
+			cc_mat[ii,jj]=cc 
+			print ii,jj,'%.3f'%cc
+	#np.save('%s/cc_mat.npy'%output_folder,cc_mat)
+	np.savetxt('%s/cc_mat.txt'%output_folder,cc_mat,fmt='%.3f')
+	os.system('rm -rf %s/temp'%output_folder)
 
+'''
 def cal_cc(voxel_group,rmax,output_folder,target_pdb,iq_file=None):
 	os.system('mkdir %s/temp'%output_folder)
 	os.system('mkdir %s/temp1'%output_folder)
@@ -132,5 +146,5 @@ def cal_cc(voxel_group,rmax,output_folder,target_pdb,iq_file=None):
 	os.system('rm -rf %s/temp'%output_folder)
 	os.system('rm -rf %s/temp1'%output_folder)
 	os.system('rm -rf %s/temp2'%output_folder)
-
+'''
 	

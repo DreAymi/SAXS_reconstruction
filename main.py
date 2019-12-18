@@ -19,12 +19,10 @@ from functools import partial
 GPU_NUM=1
 BATCH_SIZE=10
 
-cur_path=sys.path[0]
-#group_init_parameter is well-trained model's distribution of latent vector, used to initalize gene group.
-group_init_parameter=np.loadtxt(cur_path+'/genegroup_init_parameter_2.txt',delimiter=' ')
 np.set_printoptions(precision=10)
 
 parser=argparse.ArgumentParser()
+parser.add_argument('--model_path',help='path of trained neural network model',type=str)
 parser.add_argument('--iq_path',help='path of iq_file',type=str)
 parser.add_argument('--rmax',help='radius of the protein',default=0,type=float)
 parser.add_argument('--output_folder',help='path of output file',type=str)
@@ -32,6 +30,10 @@ parser.add_argument('--target_pdb',help='path of target pdb file',default='None'
 parser.add_argument('--rmax_start',help='start range of rmax',default=10,type=float)
 parser.add_argument('--rmax_end',help='end range of rmax',default=300,type=float)
 args=parser.parse_args()
+
+saved_model_path=args.model_path
+#group_init_parameter is well-trained model's distribution of latent vector, used to initalize gene group.
+group_init_parameter=np.loadtxt(saved_model_path+'/genegroup_init_parameter_2.txt',delimiter=' ')
 
 class MyThread(threading.Thread):
 	def __init__(self,func,args=()):
@@ -443,7 +445,7 @@ if __name__=='__main__':
 
 
 	
-	saved_model_path=cur_path+'/model'
+	saved_model_path=args.model_path
 	auto_encoder_t.BATCH_SIZE=BATCH_SIZE
 	map2iq.output_folder=output_folder
 	
@@ -462,9 +464,12 @@ if __name__=='__main__':
 	else:
 		evolution_mode='withrmax'
 	saver=tf.train.Saver()
+	print saved_model_path
 
 	with tf.Session(config=tf.ConfigProto(allow_soft_placement=True)) as sess:
 		model_path=tf.train.latest_checkpoint(saved_model_path)
+		print saved_model_path
+		print model_path
 		saver.restore(sess, model_path)
 		genetic_object=evolution(output_folder,evolution_mode,rmax_start,rmax_end)
 		if evolution_mode=='withoutrmax':
@@ -486,7 +491,7 @@ if __name__=='__main__':
 	else:
 		result2pdb.write2pdb( result_sample ,rmax ,output_folder,processed_saxs_path,target_pdb)
 		t3=time.time()
-		result2pdb.cal_cc(voxel_group,rmax,output_folder,target_pdb,processed_saxs_path)
+		result2pdb.cal_cc(voxel_group,rmax,output_folder,target_pdb)
 	
 	t4=time.time()
 	print 'total_time:',(t4-t1)
