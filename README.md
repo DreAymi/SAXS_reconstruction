@@ -40,8 +40,8 @@
     ```
     If it prints the tensorflow version information, the installation is successful.
 
-> The supports to Python 3.0 and Tensorflow 2.x will be provided in future releases. For the moment, tensorflow 2.0 or above can be used by the following 
-```
+The supports to Python 3.0 and Tensorflow 2.x will be provided in future releases. For the moment, tensorflow 2.0 or above can be used by the following 
+```python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 ```
