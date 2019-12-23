@@ -1,5 +1,6 @@
 # User Guide
 
+------
 **Please attention**:
      When you download this project on github, there are three model files in the 'model' directory named with model.ckpt*. 
      They are too large to download successfully. You need to click those files in github, and download them manually, then put them in the 'model' directory.
