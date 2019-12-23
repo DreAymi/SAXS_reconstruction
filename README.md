@@ -40,7 +40,7 @@
     ```
     If it prints the tensorflow version information, the installation is successful.
 
-The supports to Python 3.0 and Tensorflow 2.x will be provided in future releases. For the moment, tensorflow 2.0 or above can be used by the following 
+The supports to Python 3.0 and Tensorflow 2.x will be provided in future releases (see Notes at the end). For the moment, tensorflow 2.0 or above can be used by the following 
 ```python
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -82,3 +82,6 @@ tf.disable_v2_behavior()
     score_mat.txt: Record top 20 samples with high score on every generation.
     cc_mat.txt: Record top 20 samples' correlation coefficient with target structure in every generation.
     ```
+    
+5. Notes
+    The SASTBX package is used to provide two functions: (1) computation of model saxs profile from voxel objects; (2) superpose the reconstructed models to reference model to quantify the consistency. Both functions can be replaced by other options. For example, the SAXS profiles can be computed using Crysol, AquaSAXS, PepsiSAXS or DENSS; model comparison can be done with chimera program, or the program in ATSAS. The codes in map2iq.py needs to be modified to reflect the change of these functions.
