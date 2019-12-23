@@ -40,6 +40,12 @@
     ```
     If it prints the tensorflow version information, the installation is successful.
 
+> The supports to Python 3.0 and Tensorflow 2.x will be provided in future releases. For the moment, tensorflow 2.0 or above can be used by the following 
+```
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+```
+
 2. Description of files:
     Files in folder model are the trained autoencoder model, which is used in the reconstruction project.
     main.py is the only file you need to use when you run the project.
