@@ -67,8 +67,8 @@ Please attention:
 
 5. How to generate dataset and train network
     There are three directories in folder 'train_net'. 'dataset' is used to generate dataset. 'train_net1' and 'train_net2' are two methods to train antoencoder network.
-    In 'dataset', you can generate dataset before train: 1) Run 'download.py' to download 'pisa' dataset. 2) Run 'make_tfrecords.py' to generate tensorflow format dataset.
+    In 'dataset', you can generate dataset before train: 1) Run 'python download.py' to download 'pisa' dataset. 2) Run 'sastbx.python make_tfrecords.py' to generate tensorflow format dataset.
     After generating dataset, you can train network as follows:
-    In 'train_net1', you can use two steps to train network: 1) Run 'autoencoder.py' in 'net1'. Then run 'autoencoder.py' in 'net2'. The final model will saved in 'train_net1/net2/model'.
-    In 'train_net2', you can run 'autoencoder.py' directly to train network. The final model will saved in 'train_net2/model'.
+    In 'train_net1', you can use two steps to train network: 1) Run 'python autoencoder.py' in 'net1'. Then run 'python autoencoder.py' in 'net2'. The final model will saved in 'train_net1/net2/model'.
+    In 'train_net2', you can run 'python autoencoder.py' directly to train network. The final model will saved in 'train_net2/model'.
     
