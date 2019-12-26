@@ -31,7 +31,8 @@ Please attention:
     If it works, you have deployed successfully.
 
 2. Description of files:
-    Files in folder model are the well-trained autoencoder model, which is used in the reconstruction project.
+    Files in folder 'train_net' are used to generate dataset and train autoencoder network.
+    Files in folder 'model' are the well-trained autoencoder model, which is used in the reconstruction project.
     main.py is the only file you need to use when you run the project.
     SASDA25.* are samples which can use to run a demo.
     Other py files are sub-files, need to put in the same folder with main.py.
@@ -42,7 +43,7 @@ Please attention:
 
     sastbx.python main.py --model_path $model_path --iq_path $iq_path --output_folder $output_path --rmax $known_rmax --target_pdb $targetpdb_path
 
-    --model_path: the path of well-trained tensorflow's model files.
+    --model_path: the path of well-trained tensorflow's model files.(here we give a well-trained model in folder 'model'.)
     --iq_path: file of experimental saxs data, DAT* or GNOM.
     --output_folder: output path of results.
     --rmax: size(Å) of the reconstruction object if you know.
@@ -50,7 +51,7 @@ Please attention:
     --rmax_start: minimum of rmax (default=10)
     --rmax_end: maximum of rmax (default=300)
 
-    --iq_path and --output_folder are necessary. if the --iq_path you give is a GNOM type(eg.example/SASDA25.out) file, --rmax is not needed. This project will extract the rmax from your input file. If the --iq_path you give is just a DAT* file (two or three columns of data), you can specify a certain value of --rmax. If not, this project will find a well-matched size during reconstruction. You also can give a range of rmax by specify --rmax_start and --rmax_end.
+    --model_path, --iq_path and --output_folder are necessary. if the --iq_path you give is a GNOM type(eg.example/SASDA25.out) file, --rmax is not needed. This project will extract the rmax from your input file. If the --iq_path you give is just a DAT* file (two or three columns of data), you can specify a certain value of --rmax. If not, this project will find a well-matched size during reconstruction. You also can give a range of rmax by specify --rmax_start and --rmax_end.
     --target_pdb is another additional parameter, help you know the relationship (correlation coefficient) between the reconstruction results and the structure you give.
 
 
@@ -63,4 +64,11 @@ Please attention:
     final_saxs.txt: Record the fitting saxs data of last generation.
     score_mat.txt: Record top 20 samples with high score on every generation.
     cc_mat.txt: Record top 20 samples' correlation coefficient with target structure in every generation.
+
+5. How to generate dataset and train network
+    There are three directories in folder 'train_net'. 'dataset' is used to generate dataset. 'train_net1' and 'train_net2' are two methods to train antoencoder network.
+    In 'dataset', you can generate dataset before train: 1) Run 'download.py' to download 'pisa' dataset. 2) Run 'make_tfrecords.py' to generate tensorflow format dataset.
+    After generating dataset, you can train network as follows:
+    In 'train_net1', you can use two steps to train network: 1) Run 'autoencoder.py' in 'net1'. Then run 'autoencoder.py' in 'net2'. The final model will saved in 'train_net1/net2/model'.
+    In 'train_net2', you can run 'autoencoder.py' directly to train network. The final model will saved in 'train_net2/model'.
     
