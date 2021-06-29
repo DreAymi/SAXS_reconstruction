@@ -1,5 +1,6 @@
 import numpy as np
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
 import random
 import os
 import exceptions
@@ -85,46 +86,7 @@ def decode(z,batchsize):
 
 	return logits
 
-'''
-def generate_session_decode(gpu_num):
-	in_=[]
-	out=[]
-	for ii in rnage(gpu_num):
-		with tf.device('/gpu:%d'%ii):
-			train_in=tf.placeholder(shape=[BATCH_SIZE,200],dtype=tf.float32)
-			train_logits =decode(train_in,BATCH_SIZE)
-			train_out=tf.nn.sigmoid(train_logits)
-			in_.append(train_in)
-			out.append(train_out)
-			tf.get_variable_scope().reuse_variables()
-	saver=tf.train.Saver()
-	sess=tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=False))
-	model_path=tf.train.latest_checkpoint(saved_model_path)
-	saver.restore(sess,model_path)
-	return sess,in_,out
 
-def generate_session(gpu_num):
-	in_=[]
-	z=[]
-	out=[]
-	for ii in range(gpu_num):
-		with tf.device('/gpu:%d'%ii):
-			train_in=tf.placeholder(shape=[1,32,32,32,1],dtype=tf.float32)
-			train_z=encode(train_in,1)
-			train_logits =decode(train_z,1)
-			train_out=tf.nn.sigmoid(train_logits)
-			tf.get_variable_scope().reuse_variables()
-			in_.append(train_in)
-			z.append(train_z)
-			out.append(train_out)
-
-	saver=tf.train.Saver()
-	sess=tf.Session(config=tf.ConfigProto(allow_soft_placement=True,log_device_placement=False))
-	sess.run(tf.global_variables_initializer())
-	model_path=tf.train.latest_checkpoint(saved_model_path)
-	saver.restore(sess,model_path)
-	return sess,in_,z,out
-'''
 def generate_session_decode(gpu_num):
 	print 'BATCH_SIZE:::',BATCH_SIZE
 	in_=[]
@@ -155,7 +117,31 @@ def generate_session(gpu_num):
 			out.append(train_out)
 	return in_,z,out
 
+def generate_encode_session(gpu_num):
+	in_=[]
+	z=[]
+	for ii in range(gpu_num):
+		with tf.device('/gpu:%d'%ii):
+			train_in=tf.placeholder(shape=[1,32,32,32,1],dtype=tf.float32)
+			train_z=encode(train_in,1)
+			tf.get_variable_scope().reuse_variables()
+			in_.append(train_in)
+			z.append(train_z)
+	return in_,z
 
+
+def generate_decode_session(gpu_num):
+	z=[]
+	out=[]
+	for ii in range(gpu_num):
+		with tf.device('/gpu:%d'%ii):
+			train_z=tf.placeholder(shape=[1,z_dim],dtype=tf.float32)
+			train_logits =decode(train_z,1)
+			train_out=tf.nn.sigmoid(train_logits)
+			tf.get_variable_scope().reuse_variables()
+			z.append(train_z)
+			out.append(train_out)
+	return z,out
 
 
 
